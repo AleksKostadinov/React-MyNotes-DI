@@ -19,6 +19,7 @@ const NotePage = () => {
     }, [noteId]) //when is changing noteId to rerun useEffect
 
     const getNote = () => {
+        if (noteId === 'new') return
         fetch(baseUrl)
         .then(res => res.json())
         .then(result => {
@@ -27,6 +28,7 @@ const NotePage = () => {
     }
 
     // const getNote = async () => {
+    //     if (noteId === 'new') return
     //     const response = await fetch(`http://localhost:8000/notes/${noteId}`)
     //     const result = await response.json()
     //     setNote(result)
@@ -39,6 +41,17 @@ const NotePage = () => {
         });
     }
 
+    const createNote = async () => {
+        console.log('Note')
+        await fetch(`http://localhost:8000/notes/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({...note, 'updated': new Date()})
+        })
+    }
+
     const updateNote = async () => {
         await fetch(`http://localhost:8000/notes/${noteId}`, {
             method: 'PUT',
@@ -49,8 +62,25 @@ const NotePage = () => {
         })
     }
 
+    const deleteNote = async () => {
+        await fetch(`http://localhost:8000/notes/${noteId}`, {
+            method: 'Delete',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        navigate('/')
+    }
+
     const handleSubmit = () => {
-        updateNote()
+        if (noteId !== 'new' && !note.body) {
+            deleteNote()
+        } else if (noteId !== 'new') {
+            updateNote()
+        } else if (noteId === 'new' && note!== null) {
+            createNote()
+        }
+
         navigate('/')
     }
 
@@ -60,6 +90,12 @@ const NotePage = () => {
                 <h3>
                     <ArrowLeft onClick={handleSubmit}/>
                 </h3>
+
+                {noteId !== 'new'
+                    ? (<button onClick={deleteNote}>Delete</button>)
+                    : (<button onClick={handleSubmit}>Done</button>)
+                }
+
             </div>
 
             <textarea onChange={onChange} placeholder="Edit note" value={note?.body}>
