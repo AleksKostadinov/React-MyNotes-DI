@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import notes from '../assets/data';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg';
 
@@ -16,6 +15,7 @@ const NotePage = () => {
 
     useEffect(() => {
         getNote()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [noteId]) //when is changing noteId to rerun useEffect
 
     const getNote = () => {
@@ -72,6 +72,10 @@ const NotePage = () => {
         navigate('/')
     }
 
+    const goToHomePage = () => {
+        navigate('/')
+    }
+
     const handleSubmit = () => {
         if (noteId !== 'new' && !note.body) {
             deleteNote()
@@ -88,12 +92,13 @@ const NotePage = () => {
         <div className='note'>
             <div className="note-header">
                 <h3>
-                    <ArrowLeft onClick={handleSubmit}/>
+                    <ArrowLeft onClick={goToHomePage}/>
+                    <button onClick={handleSubmit}>Update</button>
                 </h3>
 
-                {noteId !== 'new'
-                    ? (<button onClick={deleteNote}>Delete</button>)
-                    : (<button onClick={handleSubmit}>Done</button>)
+                {noteId !== 'new' &&
+                    <button onClick={deleteNote}>Delete</button>
+
                 }
 
             </div>
