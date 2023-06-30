@@ -10,15 +10,15 @@ import {
 
 function App() {
   return (
-
-    <div className="App">
-      <Header />
-      <Routes>
-        <Route path="/" element={<NotesListPage />} />
-        <Route path="note/:id" element={<NotePage />} />
-      </Routes>
+    <div className="container dark">
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/" element={<NotesListPage />} />
+          <Route path="note/:id" element={<NotePage />} />
+        </Routes>
+      </div>
     </div>
-
   );
 }
 
