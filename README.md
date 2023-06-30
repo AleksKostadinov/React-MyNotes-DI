@@ -4,3 +4,7 @@
 2. - npm install
 3. - npm run server
 4. - npm start
+
+
+## Live: 
+https://glittering-cocada-33911c.netlify.app/
